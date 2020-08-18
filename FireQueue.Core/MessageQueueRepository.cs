@@ -17,6 +17,15 @@ namespace FireQueue.Core
             LoadExistingQueues();
         }
 
+        private void LoadExistingQueues()
+        {
+            var sql = "SELECT * FROM Queues";
+            var queues = sqlClient.Query<MessageQueueDto>(sql).ToList();
+
+            foreach (var queue in queues)
+                messageQueues.Add(queue.Name, new MessageQueue(queue.QueueId, sqlClient));
+        }
+
         public void RegisterQueue(string queue)
         {
             if (!messageQueues.ContainsKey(queue))
@@ -38,15 +47,6 @@ namespace FireQueue.Core
                 throw new Exception($"Queue {queue} does not exist.");
 
             return messageQueues[queue];
-        }
-
-        private void LoadExistingQueues()
-        {
-            var sql = "SELECT * FROM Queues";
-            var queues = sqlClient.Query<MessageQueueDto>(sql).ToList();
-
-            foreach (var queue in queues)
-                messageQueues.Add(queue.Name, new MessageQueue(queue.QueueId, sqlClient));
         }
     }
 }

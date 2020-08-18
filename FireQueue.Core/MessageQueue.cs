@@ -22,14 +22,22 @@ namespace FireQueue.Core
 
         public void Publish(IMessage message)
         {
-            var sql = "INSERT INTO Messages (Contents, QueueId, DatePublished) VALUES (@Contents, @QueueId, GETDATE())";
+            var serializationMessage = SerializeMessage(message);
+            InsertMessageIntoDatabase(serializationMessage);
+        }
 
+        private SerializationMessage SerializeMessage(IMessage message)
+        {
             var messageContents = JsonConvert.SerializeObject(message);
-            var serializationMessage = new SerializationMessage
+            return new SerializationMessage
             {
                 Contents = messageContents
             };
+        }
 
+        private void InsertMessageIntoDatabase(SerializationMessage serializationMessage)
+        {
+            var sql = "INSERT INTO Messages (Contents, QueueId, DatePublished) VALUES (@Contents, @QueueId, GETDATE())";
             sqlClient.ExecuteSql(sql, new
             {
                 Contents = JsonConvert.SerializeObject(serializationMessage),
@@ -43,13 +51,14 @@ namespace FireQueue.Core
             if (!subscribers.ContainsKey(messageType))
                 subscribers.Add(messageType, new List<Type>());
 
-            var handlerTypes = Assembly.GetCallingAssembly().GetTypes().Where(t => t.BaseType == typeof(MessageHandler<T>)).ToList();
+            var handlerTypes = Assembly.GetEntryAssembly().GetTypes().Where(t => t.BaseType == typeof(MessageHandler<T>)).ToList();
             foreach (var handlerType in handlerTypes)
                 subscribers[messageType].Add(handlerType);
 
             Task.Factory.StartNew(() => ProcessSubscription<T>());
         }
 
+        // TODO: Refactor this out into its own class
         private void ProcessSubscription<T>() where T : IMessage
         {
             var selectSql = "SELECT * FROM Messages WHERE QueueId = @QueueId AND DatePublished = (SELECT MAX(DatePublished) FROM Messages WHERE QueueId = @QueueId)";

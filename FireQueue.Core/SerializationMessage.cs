@@ -1,10 +1,7 @@
-﻿using System;
-
-namespace FireQueue.Core
+﻿namespace FireQueue.Core
 {
-    class SerializationMessage
+    internal class SerializationMessage
     {
-        public string Type { get; set; }
         public string Contents { get; set; }
     }
 }

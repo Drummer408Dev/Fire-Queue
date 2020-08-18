@@ -64,6 +64,8 @@ namespace FireQueue.Core
             var selectSql = "SELECT * FROM Messages WHERE QueueId = @QueueId AND DatePublished = (SELECT MAX(DatePublished) FROM Messages WHERE QueueId = @QueueId)";
             var deleteSql = "DELETE FROM Messages WHERE MessageId = @MessageId";
 
+            // TODO: Probably not the most efficient to keep hammering the database to check for new messages-
+            //       need to look into more optimal ways of determining whether a new message was published
             while (true)
             {
                 var serializedMessage = sqlClient.Query<MessageDto>(selectSql, new

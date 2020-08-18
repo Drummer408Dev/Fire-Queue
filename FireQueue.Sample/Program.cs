@@ -36,7 +36,7 @@ namespace FireQueue.Sample
             //queueRepository.RegisterQueue("Test Queue");
             //queueRepository.RegisterQueue("Test Queue 2");
             queueRepository.Subscribe<TestMessage>("Test Queue");
-            queueRepository.Publish("Test Queue 2", new TestMessage
+            queueRepository.Publish("Test Queue", new TestMessage
             {
                 TestString = "Hello World",
                 TestInt = 123,

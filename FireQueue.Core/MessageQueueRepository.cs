@@ -32,16 +32,16 @@ namespace FireQueue.Core
         public void RegisterQueue(string queue)
         {
             if (!queueIds.ContainsKey(queue))
-                throw new Exception($"Queue {queue} has already been registered.");
-
-            var sql = "INSERT INTO Queues (Name, DateCreated) OUTPUT INSERTED.QueueId VALUES (@Name, GETDATE())";
-
-            var queueId = sqlClient.QuerySingle<int>(sql, new
             {
-                Name = queue
-            });
+                var sql = "INSERT INTO Queues (Name, DateCreated) OUTPUT INSERTED.QueueId VALUES (@Name, GETDATE())";
 
-            queueIds.Add(queue, queueId);
+                var queueId = sqlClient.QuerySingle<int>(sql, new
+                {
+                    Name = queue
+                });
+
+                queueIds.Add(queue, queueId);
+            }
         }
 
         public void Publish(string queue, IMessage message)

@@ -2,14 +2,7 @@
 
 namespace FireQueue.Core
 {
-    internal class MessageQueue
-    {
-        public int QueueId { get; set; }
-        public string Name { get; set; }
-        public DateTime DateCreated { get; set; }
-    }
-
-    internal class Message
+    internal class MessageDto
     {
         public int MessageId { get; set; }
         public string Contents { get; set; }

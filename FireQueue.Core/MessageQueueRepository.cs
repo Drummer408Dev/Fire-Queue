@@ -25,7 +25,7 @@ namespace FireQueue.Core
         private void LoadQueueIds()
         {
             var sql = "SELECT * FROM Queues";
-            var queues = sqlClient.Query<MessageQueue>(sql).ToList();
+            var queues = sqlClient.Query<MessageQueueDto>(sql).ToList();
             queues.ForEach(q => queueIds.Add(q.Name, q.QueueId));
         }
 
@@ -86,7 +86,7 @@ namespace FireQueue.Core
 
             while (true)
             {
-                var serializedMessage = sqlClient.Query<Message>(selectSql, new
+                var serializedMessage = sqlClient.Query<MessageDto>(selectSql, new
                 {
                     QueueId = queueId
                 }).SingleOrDefault();

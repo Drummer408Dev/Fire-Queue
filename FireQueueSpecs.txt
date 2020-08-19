@@ -1,0 +1,45 @@
+Fire Queue
+==========
+* Message Queue representation stored in SQL Database.
+* There is a 1-1 relationship between connection string and message queue repository
+* Users can create any number of queues for a specific repository
+* Users can publish any number of IMessages to queues
+* To prevent queue backup, the top message of EACH type of message published will get processed by handlers, NOT just the top message
+* For now, queue processing revolves around making continuous SQL calls to check if new messages have come through or not
+* Will also need to account for an Admin website where users can monitor/create their queues
+
+Database Representation
+=======================
+1) Queues
+   ------
+   * QueueId:     int PK
+   * Name:        string    unique   not null
+   * DateCreated: datetime           not null
+
+2) Messages
+   --------
+   * MessageId:     int PK
+   * QueueId:       int FK   not null
+   * Type:          string   not null
+   * Contents:      string   not null
+   * DatePublished: datetime not null
+
+Database Tables
+===============
+1) Queues
+   ------
+CREATE TABLE [Queues] (
+  [QueueId] [int] IDENTITY(1, 1) NOT NULL,
+  [Name] [varchar] (128) NOT NULL,
+  [DateCreated] [datetime] NOT NULL
+)
+
+2) Messages
+   --------
+CREATE TABLE [Messages] (
+  [MessageId] [int] IDENTITY(1, 1) NOT NULL,
+  [QueueId] [int] NOT NULL,
+  [Type] [varchar] (64) NOT NULL
+  [Contents] [varchar] (max) NOT NULL,
+  [DatePublished] [datetime] NOT NULL
+)

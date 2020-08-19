@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
-namespace FireQueue.Core
+namespace FireQueue.Core.Database
 {
     internal class SqlClient
     {

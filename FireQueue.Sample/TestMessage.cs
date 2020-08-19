@@ -1,4 +1,4 @@
-﻿using FireQueue.Core;
+﻿using FireQueue.Core.Infrastructure;
 using System;
 
 namespace FireQueue.Sample

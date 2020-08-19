@@ -1,11 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using FireQueue.Core.Database;
+using FireQueue.Core.Dtos;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace FireQueue.Core
+namespace FireQueue.Core.Infrastructure
 {
     public class MessageQueue
     {

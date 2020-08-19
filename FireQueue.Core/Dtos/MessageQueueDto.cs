@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FireQueue.Core
+namespace FireQueue.Core.Dtos
 {
     internal class MessageQueueDto
     {

@@ -1,4 +1,4 @@
-﻿namespace FireQueue.Core
+﻿namespace FireQueue.Core.Infrastructure
 {
     internal interface IMessageHandler
     {

@@ -1,4 +1,4 @@
-﻿namespace FireQueue.Core
+﻿namespace FireQueue.Core.Database
 {
     internal class SerializationMessage
     {

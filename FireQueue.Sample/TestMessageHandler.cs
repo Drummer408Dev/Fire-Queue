@@ -7,7 +7,7 @@ namespace FireQueue.Sample
     {
         public override void Handle(TestMessage message)
         {
-            Console.WriteLine("I HAVE BEEN HANDLED!!");
+            Console.WriteLine($"From TestMessageHandler: {message.TestString}");
         }
     }
 }

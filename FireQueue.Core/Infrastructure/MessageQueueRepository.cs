@@ -10,12 +10,15 @@ namespace FireQueue.Core.Infrastructure
     {
         private SqlClient sqlClient;
         private Dictionary<string, MessageQueue> messageQueues;
+        private SqlInstaller sqlInstaller;
 
         public MessageQueueRepository(string connectionString)
         {
             sqlClient = new SqlClient(connectionString);
             messageQueues = new Dictionary<string, MessageQueue>();
+            sqlInstaller = new SqlInstaller(sqlClient);
 
+            sqlInstaller.Install();
             LoadExistingQueues();
         }
 
